@@ -7,7 +7,14 @@
   <link rel="stylesheet" href="./css/main.css">
 </head>
 
-<body>
+<body onload="init_scatter(); init_loc()">
+  <h1>College Scorecard Data 2020-2021</h1>
+
+  <div id="scatter">
+    <svg width=1000 height=500>
+    </svg>
+  </div>
+
   <div id="locations">
     <svg width=1000 height=500>
     </svg>
