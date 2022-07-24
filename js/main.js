@@ -64,8 +64,8 @@ function init_scatter() {
   var colors = d3.scale.linear().domain([400, 1200, 1600])
     .range(["cornflowerblue", "mediumpurple", "crimson"]);
 
-  var xscale = d3.scale.linear().domain([1, 0]).range([950, 50]);
-  var yscale = d3.scale.log().domain([1, 42000000000.0]).range([425, 0]);
+  var xscale = d3.scale.linear().domain([1, 0]).range([925, 50]);
+  var yscale = d3.scale.log().domain([1, 42000000000.0]).range([400, 0]);
 
   var chart = d3.select("#scatter").select("svg").append("g")
     .attr("transform", "translate(50,50)");
@@ -76,7 +76,7 @@ function init_scatter() {
     .ticks(7)
 
   chart.append("g")
-    .attr("transform", "translate(0,-25)").call(xAxis)
+    .attr("transform", "translate(0,400)").call(xAxis)
 
   var yAxis = d3.svg.axis()
     .scale(yscale)
@@ -84,7 +84,7 @@ function init_scatter() {
     .ticks(5);
 
   chart.append("g")
-    .attr("transform", "translate(25,0)").call(yAxis);
+    .attr("transform", "translate(50,0)").call(yAxis);
 
   d3.csv("https://courtneymcbeth.github.io/cs416-data-vis/data/mod_MERGED2020_21_PP.csv", function (data) {
     chart.selectAll("circle")
