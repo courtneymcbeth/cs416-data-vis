@@ -5,8 +5,16 @@ function go_back() {
   d3.select("#" + divs[visible]).classed("invis", true);
   if (visible == 0) {
     visible = 2;
+    document.getElementById('back').disabled = false;
+    document.getElementById('next').disabled = true;
+  } else if (visible == 2) {
+    visible = visible - 1;
+    document.getElementById('back').disabled = false;
+    document.getElementById('next').disabled = false;
   } else {
     visible = visible - 1;
+    document.getElementById('back').disabled = true;
+    document.getElementById('next').disabled = false;
   }
   d3.select("#" + divs[visible]).classed("invis", false);
 }
@@ -15,8 +23,16 @@ function go_next() {
   d3.select("#" + divs[visible]).classed("invis", true);
   if (visible == 2) {
     visible = 0;
+    document.getElementById('next').disabled = false;
+    document.getElementById('back').disabled = true;
+  } else if (visible == 0) {
+    visible = visible + 1;
+    document.getElementById('next').disabled = false;
+    document.getElementById('back').disabled = false;
   } else {
     visible = visible + 1;
+    document.getElementById('next').disabled = true;
+    document.getElementById('back').disabled = false;
   }
   d3.select("#" + divs[visible]).classed("invis", false);
 }
