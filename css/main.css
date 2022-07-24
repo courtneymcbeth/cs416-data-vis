@@ -1,5 +1,21 @@
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+h1, h2 {
+width: 100%;
+text-align: center;
+}
+
 circle {
-  stroke: black;
+  stroke: none;
 }
 
 div.tooltip {   
@@ -13,4 +29,8 @@ div.tooltip {
   border: 0px;      
   border-radius: 8px;           
   pointer-events: none;
+}
+
+.invis {
+  display: none;
 }

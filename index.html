@@ -7,19 +7,30 @@
   <link rel="stylesheet" href="./css/main.css">
 </head>
 
-<body onload="init_scatter(); init_loc()">
+<body onload="init_legends(); init_scatter2(); init_scatter(); init_loc()">
   <h1>College Scorecard Data 2020-2021</h1>
 
-  <div id="scatter">
+  <div id="scatter2">
+    <h2>Loans vs Cost of Tuition</h2>
     <svg width=1000 height=500>
     </svg>
   </div>
 
-  <div id="locations">
+  <div class="invis" id="scatter">
+    <h2>Endowment vs Admission Rate</h2>
     <svg width=1000 height=500>
     </svg>
   </div>
+
+  <div class="invis" id="locations">
+    <h2>Geographic Distribution</h2>
+    <svg width=1000 height=500>
+    </svg>
+  </div>
+
   <div class="tooltip"></div>
+  <svg id="color-legend" width="100" height="400"></svg>
+  <svg id="size-legend" width="125" height="400"></svg>
 </body>
 
 </html>
