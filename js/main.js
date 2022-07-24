@@ -1,3 +1,26 @@
+var visible = 0;
+var divs = ["scatter2", "scatter", "locations"];
+
+function go_back() {
+  d3.select("#" + divs[visible]).classed("invis", true);
+  if (visible == 0) {
+    visible = 2;
+  } else {
+    visible = visible - 1;
+  }
+  d3.select("#" + divs[visible]).classed("invis", false);
+}
+
+function go_next() {
+  d3.select("#" + divs[visible]).classed("invis", true);
+  if (visible == 2) {
+    visible = 0;
+  } else {
+    visible = visible + 1;
+  }
+  d3.select("#" + divs[visible]).classed("invis", false);
+}
+
 // D3 United States map reference: http://bl.ocks.org/michellechandra/0b2ce4923dc9b5809922
 
 function init_loc() {
@@ -11,6 +34,8 @@ function init_loc() {
     .range(["indigo", "darkmagenta", "red", "yellow"]);
 
   var rscale = d3.scale.sqrt().domain([100, 80000]).range([2, 20]);
+
+  // JSON from https://eric.clst.org/tech/usgeojson/
 
   d3.json("https://courtneymcbeth.github.io/cs416-data-vis/data/states.json", function (json) {
     d3.select('#locations').select('svg').selectAll("path")

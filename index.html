@@ -8,7 +8,7 @@
 </head>
 
 <body onload="init_legends(); init_scatter2(); init_scatter(); init_loc()">
-  <h1>College Scorecard Data 2020-2021</h1>
+  <h1>United States College Scorecard Data 2020-2021</h1>
 
   <div id="scatter2">
     <h2>Loans vs Cost of Tuition</h2>
@@ -29,8 +29,15 @@
   </div>
 
   <div class="tooltip"></div>
-  <svg id="color-legend" width="100" height="400"></svg>
-  <svg id="size-legend" width="125" height="400"></svg>
+  <div id="tools">
+    <svg id="color-legend" width="100" height="400"></svg>
+    <svg id="size-legend" width="125" height="400"></svg>
+    <div id="buttons">
+      <button id="back" type="button" onclick="go_back()" disabled>Back</button>
+      <button id="next" type="button" onclick="go_next()">Next</button>
+    </div>
+  </div>
+
 </body>
 
 </html>
