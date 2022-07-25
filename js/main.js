@@ -1,3 +1,5 @@
+// Annotation reference: https://bl.ocks.org/susielu/a464c24d8b42f0c4d9fafe7b48e9e60a
+
 var visible = 0;
 var divs = ["scatter2", "scatter", "locations"];
 
@@ -43,13 +45,22 @@ function init_loc() {
   var width = 1000;
   var height = 500;
 
-  var projection = d3.geoAlbersUsa().translate([width / 2, height / 2]).scale([1000]);
+  var projection = d3.geoAlbersUsa().translate([width / 2 - 90, height / 2]).scale([1000]);
   var path = d3.geoPath().projection(projection);
 
   var colors = d3.scaleLinear().domain([400, 1200, 1400, 1600])
     .range(["indigo", "darkmagenta", "red", "yellow"]);
 
   var rscale = d3.scaleSqrt().domain([100, 80000]).range([2, 20]);
+
+  d3.select("#locations").select("svg").append("g").attr("transform", "translate(800, 350)")
+    .attr("id", "deep-dive");
+
+  var hscale = d3.scaleLinear().domain([0, 1]).range([100, 0]);
+  var bscale = d3.scaleBand()
+    .domain(["White", "Black", "Hisp.", "Asian", "Native", "Other"])
+    .range([0, 180])
+    .paddingInner(0);
 
   // JSON from https://eric.clst.org/tech/usgeojson/
 
@@ -96,10 +107,85 @@ function init_loc() {
           d3.select(".tooltip").text(d.INSTNM)
             .style("left", (d3.event.pageX) + "px")
             .style("top", (d3.event.pageY - 28) + "px");
+          d3.select("#deep-dive")
+            .append("rect")
+            .classed("bar-chart", true)
+            .attr("y", hscale(d.UGDS_WHITE))
+            .attr("x", bscale("White"))
+            .attr("height", 100 - hscale(d.UGDS_WHITE))
+            .attr("width", 30)
+            .style("fill", "indigo");
+          d3.select("#deep-dive")
+            .append("rect")
+            .classed("bar-chart", true)
+            .attr("y", hscale(d.UGDS_BLACK))
+            .attr("x", bscale("Black"))
+            .attr("height", 100 - hscale(d.UGDS_BLACK))
+            .attr("width", 30)
+            .style("fill", "darkmagenta");
+          d3.select("#deep-dive")
+            .append("rect")
+            .classed("bar-chart", true)
+            .attr("y", hscale(d.UGDS_HISP))
+            .attr("x", bscale("Hisp."))
+            .attr("height", 100 - hscale(d.UGDS_HISP))
+            .attr("width", 30)
+            .style("fill", "red");
+          d3.select("#deep-dive")
+            .append("rect")
+            .classed("bar-chart", true)
+            .attr("y", hscale(d.UGDS_ASIAN))
+            .attr("x", bscale("Asian"))
+            .attr("height", 100 - hscale(d.UGDS_ASIAN))
+            .attr("width", 30)
+            .style("fill", "darkorange");
+          d3.select("#deep-dive")
+            .append("rect")
+            .classed("bar-chart", true)
+            .attr("y", hscale(d.UGDS_AIAN))
+            .attr("x", bscale("Native"))
+            .attr("height", 100 - hscale(d.UGDS_AIAN))
+            .attr("width", 30)
+            .style("fill", "orange");
+          d3.select("#deep-dive")
+            .append("rect")
+            .classed("bar-chart", true)
+            .attr("y", hscale(d.UGDS_NHPI))
+            .attr("x", bscale("Other"))
+            .attr("height", 100 - hscale(d.UGDS_NHPI))
+            .attr("width", 30)
+            .style("fill", "gold");
+
+          var bAxis = d3.axisBottom(bscale);
+          d3.select("#deep-dive").append("g")
+            .attr("transform", "translate(0,100)").call(bAxis);
+
+          var hAxis = d3.axisLeft(hscale)
+            .ticks(7);
+          d3.select("#deep-dive").append("g")
+            .attr("transform", "translate(0,0)").call(hAxis);
+
+          d3.select("#deep-dive").append("text")
+            .attr("text-anchor", "middle")
+            .classed("caption", true)
+            .attr("y", -50)
+            .attr("x", -50)
+            .attr("dy", ".75em")
+            .attr("transform", "rotate(-90)")
+            .text("Percent of Student Body (%)");
+
+          d3.select("#deep-dive").append("text")
+            .attr("text-anchor", "middle")
+            .classed("caption", true)
+            .attr("y", -20)
+            .attr("x", 90)
+            .attr("dy", ".75em")
+            .text("Demographic Makeup");
         })
         .on("mouseout", function (d) {
           d3.select(".tooltip")
             .style("opacity", 0);
+          d3.select("#deep-dive").selectAll("*").remove();
         });
     });
   });
