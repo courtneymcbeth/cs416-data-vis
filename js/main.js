@@ -53,7 +53,7 @@ function init_loc() {
 
   var rscale = d3.scaleSqrt().domain([100, 80000]).range([2, 20]);
 
-  d3.select("#locations").select("svg").append("g").attr("transform", "translate(800, 350)")
+  d3.select("#locations").select("svg").append("g").attr("transform", "translate(750, 350)")
     .attr("id", "deep-dive");
 
   var hscale = d3.scaleLinear().domain([0, 1]).range([100, 0]);
@@ -107,6 +107,13 @@ function init_loc() {
           d3.select(".tooltip").text(d.INSTNM)
             .style("left", (d3.event.pageX) + "px")
             .style("top", (d3.event.pageY - 28) + "px");
+        })
+        .on("mouseout", function (d) {
+          d3.select(".tooltip")
+            .style("opacity", 0);
+        })
+        .on("click", function (d) {
+          d3.select("#deep-dive").selectAll("*").remove();
           d3.select("#deep-dive")
             .append("rect")
             .classed("bar-chart", true)
@@ -181,11 +188,59 @@ function init_loc() {
             .attr("x", 90)
             .attr("dy", ".75em")
             .text("Demographic Makeup");
-        })
-        .on("mouseout", function (d) {
-          d3.select(".tooltip")
-            .style("opacity", 0);
-          d3.select("#deep-dive").selectAll("*").remove();
+
+          d3.select("#deep-dive").append("text")
+            .attr("text-anchor", "start")
+            .classed("caption", true)
+            .attr("y", -50)
+            .attr("x", 0)
+            .attr("dy", ".75em")
+            .text(function () {
+              if (d.AVGFACSAL == "") {
+                return "Avg. Faculty Salary: N/A"
+              }
+              return "Avg. Faculty Salary: $" + d.AVGFACSAL;
+            });
+
+          d3.select("#deep-dive").append("text")
+            .attr("text-anchor", "start")
+            .classed("caption", true)
+            .attr("y", -70)
+            .attr("x", 0)
+            .attr("dy", ".75em")
+            .text(function () {
+              if (d.MENONLY == "") {
+                return "Men-Only: N/A";
+              } else if (d.MENONLY == 1) {
+                return "Men-Only: Yes";
+              } else {
+                return "Men-Only: No";
+              }
+            });
+
+          d3.select("#deep-dive").append("text")
+            .attr("text-anchor", "start")
+            .classed("caption", true)
+            .attr("y", -90)
+            .attr("x", 0)
+            .attr("dy", ".75em")
+            .text(function () {
+              if (d.WOMENONLY == "") {
+                return "Women-Only: N/A";
+              } else if (d.WOMENONLY == 1) {
+                return "Women-Only: Yes";
+              } else {
+                return "Women-Only: No";
+              }
+            });
+
+          d3.select("#deep-dive").append("text")
+            .attr("text-anchor", "start")
+            .classed("caption-title", true)
+            .attr("y", -110)
+            .attr("x", 0)
+            .attr("dy", ".75em")
+            .text(d.INSTNM);
         });
     });
   });

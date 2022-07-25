@@ -49,8 +49,12 @@ div.tooltip {
   display: none;
 }
 
-.caption {
+.caption, .caption-title {
   font-size: 8pt;
+}
+
+.caption-title {
+  text-decoration: underline;
 }
 
 .show-bg {
