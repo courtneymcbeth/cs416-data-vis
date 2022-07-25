@@ -47,3 +47,8 @@ div.tooltip {
 .invis {
   display: none;
 }
+
+.show-bg {
+  height: auto;
+  width: 200px;
+}

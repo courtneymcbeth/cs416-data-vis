@@ -142,6 +142,43 @@ function init_scatter() {
     .attr("transform", "rotate(-90)")
     .text("Endowment at Beginning of Academic Year ($)");
 
+  const type = d3.annotationLabel;
+
+  const annotations = [{
+    note: {
+      label: "Harvard University had an endowment of about $42 billion",
+      wrap: 150
+    },
+    //can use x, y directly instead of data
+    x: 150,
+    y: 65,
+    dy: 50,
+    dx: 50
+  }, {
+    note: {
+      label: "Cornell University had the highest admission rate of the Ivy League at 10.7%",
+      wrap: 150
+    },
+    //can use x, y directly instead of data
+    x: 195,
+    y: 380,
+    dy: -75,
+    dx: 50
+  }];
+
+  const makeAnnotations = d3.annotation()
+    .editMode(false)
+    //also can set and override in the note.padding property
+    //of the annotation object
+    .notePadding(15)
+    .type(type)
+    .annotations(annotations);
+
+  d3.select("#scatter").select("svg")
+    .append("g")
+    .attr("class", "annotation-group")
+    .call(makeAnnotations);
+
   d3.csv("https://courtneymcbeth.github.io/cs416-data-vis/data/mod_MERGED2020_21_PP.csv", function (data) {
     chart.selectAll("circle")
       .data(data)
@@ -219,6 +256,33 @@ function init_scatter2() {
     .attr("dy", ".75em")
     .attr("transform", "rotate(-90)")
     .text("Percent of Students with Federal Loans (%)");
+
+  const type = d3.annotationLabel;
+
+  const annotations = [{
+    note: {
+      label: "Columbia University had the highest tuition at about $62,000",
+      wrap: 150
+    },
+    //can use x, y directly instead of data
+    x: 930,
+    y: 375,
+    dy: -200,
+    dx: -10
+  }];
+
+  const makeAnnotations = d3.annotation()
+    .editMode(false)
+    //also can set and override in the note.padding property
+    //of the annotation object
+    .notePadding(15)
+    .type(type)
+    .annotations(annotations);
+
+  d3.select("#scatter2").select("svg")
+    .append("g")
+    .attr("class", "annotation-group")
+    .call(makeAnnotations);
 
   d3.csv("https://courtneymcbeth.github.io/cs416-data-vis/data/mod_MERGED2020_21_PP.csv", function (data) {
     chart.selectAll("circle")
