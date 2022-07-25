@@ -43,13 +43,13 @@ function init_loc() {
   var width = 1000;
   var height = 500;
 
-  var projection = d3.geo.albersUsa().translate([width / 2, height / 2]).scale([1000]);
-  var path = d3.geo.path().projection(projection);
+  var projection = d3.geoAlbersUsa().translate([width / 2, height / 2]).scale([1000]);
+  var path = d3.geoPath().projection(projection);
 
-  var colors = d3.scale.linear().domain([400, 1200, 1400, 1600])
+  var colors = d3.scaleLinear().domain([400, 1200, 1400, 1600])
     .range(["indigo", "darkmagenta", "red", "yellow"]);
 
-  var rscale = d3.scale.sqrt().domain([100, 80000]).range([2, 20]);
+  var rscale = d3.scaleSqrt().domain([100, 80000]).range([2, 20]);
 
   // JSON from https://eric.clst.org/tech/usgeojson/
 
@@ -106,19 +106,17 @@ function init_loc() {
 }
 
 function init_scatter() {
-  var colors = d3.scale.linear().domain([400, 1200, 1400, 1600])
+  var colors = d3.scaleLinear().domain([400, 1200, 1400, 1600])
     .range(["indigo", "darkmagenta", "red", "yellow"]);
 
-  var xscale = d3.scale.linear().domain([1, 0]).range([925, 50]);
-  var yscale = d3.scale.log().domain([100, 42000000000.0]).range([400, 0]);
-  var rscale = d3.scale.sqrt().domain([100, 80000]).range([2, 20]);
+  var xscale = d3.scaleLinear().domain([1, 0]).range([925, 50]);
+  var yscale = d3.scaleLinear().domain([0, 42]).range([400, 0]);
+  var rscale = d3.scaleSqrt().domain([100, 80000]).range([2, 20]);
 
   var chart = d3.select("#scatter").select("svg").append("g")
     .attr("transform", "translate(50,50)");
 
-  var xAxis = d3.svg.axis()
-    .scale(xscale)
-    .orient("bottom")
+  var xAxis = d3.axisBottom(xscale)
     .ticks(7)
 
   chart.append("g")
@@ -130,9 +128,7 @@ function init_scatter() {
     .attr("y", 494)
     .text("Admission Rate (%)");
 
-  var yAxis = d3.svg.axis()
-    .scale(yscale)
-    .orient("left")
+  var yAxis = d3.axisLeft(yscale)
     .ticks(5);
 
   chart.append("g")
@@ -161,7 +157,7 @@ function init_scatter() {
         if (d.ENDOWBEGIN == "" || yscale(d.ENDOWBEGIN) !== yscale(d.ENDOWBEGIN)) {
           return 0;
         }
-        return yscale(d.ENDOWBEGIN);
+        return yscale(d.ENDOWBEGIN / 1000000000);
       })
       .attr("r", function (d) {
         if (d.ENDOWBEGIN == "" || d.ADM_RATE == "") {
@@ -188,19 +184,17 @@ function init_scatter() {
 }
 
 function init_scatter2() {
-  var colors = d3.scale.linear().domain([400, 1200, 1400, 1600])
+  var colors = d3.scaleLinear().domain([400, 1200, 1400, 1600])
     .range(["indigo", "darkmagenta", "red", "yellow"]);
 
-  var xscale = d3.scale.linear().domain([65000, 0]).range([925, 50]);
-  var yscale = d3.scale.linear().domain([-0.01, 1]).range([400, 0]);
-  var rscale = d3.scale.sqrt().domain([100, 80000]).range([2, 20]);
+  var xscale = d3.scaleLinear().domain([65000, 0]).range([925, 50]);
+  var yscale = d3.scaleLinear().domain([0, 1]).range([400, 0]);
+  var rscale = d3.scaleSqrt().domain([100, 80000]).range([2, 20]);
 
   var chart = d3.select("#scatter2").select("svg").append("g")
     .attr("transform", "translate(50,50)");
 
-  var xAxis = d3.svg.axis()
-    .scale(xscale)
-    .orient("bottom")
+  var xAxis = d3.axisBottom(xscale)
     .ticks(7)
 
   chart.append("g")
@@ -212,9 +206,7 @@ function init_scatter2() {
     .attr("y", 494)
     .text("In-State Tuition ($)");
 
-  var yAxis = d3.svg.axis()
-    .scale(yscale)
-    .orient("left")
+  var yAxis = d3.axisLeft(yscale)
     .ticks(5);
 
   chart.append("g")
@@ -310,13 +302,11 @@ function init_legends() {
     .attr('height', height)
     .style('fill', 'url(#gradient)');
 
-  var legendScale = d3.scale.linear()
+  var legendScale = d3.scaleLinear()
     .domain([400, 1600])
     .range([height, 0]);
 
-  var legendAxis = d3.svg.axis()
-    .scale(legendScale)
-    .orient("right")
+  var legendAxis = d3.axisRight(legendScale)
     .tickValues([400, 600, 800, 1000, 1200, 1400, 1600])
     .tickFormat(d3.format("d"));
 
@@ -334,7 +324,7 @@ function init_legends() {
 
   // circle size legend
 
-  var rscale = d3.scale.sqrt().domain([100, 80000]).range([2, 20]);
+  var rscale = d3.scaleSqrt().domain([100, 80000]).range([2, 20]);
 
   d3.select("#size-legend").append("circle")
     .attr("cx", 25)
